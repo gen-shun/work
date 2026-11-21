@@ -27,6 +27,13 @@ $vcf context list
 $vcf context use vks-01
 $kubectl get nodes
 
+
+Automation の Token を使わない場合
+$vcf context create vks-01 --endpoint 10.1.8.132 --username administrator@wld.sso --workload-cluster-namespace prod-t2938 --workload-cluster-name vks-01 --insecure-skip-tls-verify --auth-type basic
+VMware123!VMware123!
+
+この場合、下記のリポジトリ作成はNG
+Automation の画面からaddon を導入する
 —————————————
 リポジトリの登録
 $vcf package repository add default-addon-repo-install —url depot.kube-system.svc/vcf/vks-standard-packages/ga/3.6.0-20260211/vks-standard-packages:3.6.0-20260211 -n tkg-system
