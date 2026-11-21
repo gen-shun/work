@@ -1,0 +1,207 @@
+Token確認
+~/Downloads/my-token.txt に格納されている
+FrsSYoQxrwQ65VnAheyBgysTbDhwLW8q
+立ち上げたタイミングで異なる
+
+$vcf context create vcfa --endpoint auto-a.site-a.vcf.lab --api-token 1FasL1HLOqRefVuEepZFqEkYrT28ZGus --tenant-name acme-east-a --ca-certificate vcfa-cert-chain.pem
+
+$vcf context use
+vcfa:prod-t2938:default-projectを選択
+$kubectl get vm
+$kubectl get vmi
+
+新しいVKSの作成 vks-01 LCIのウィザード
+yamlダウンロード
+
+$vcf context list
+$vcf context use vcfa:prod-t2938:default-project
+$vcf context use
+$vcf cluster list
+$vcf cluster register-vcfa-jwt-authenticator vks-01
+$vcf cluster kubeconfig get vks-01 --export-file ~/.kube/config
+$cat ~/.kube/config |grep vks-01
+$vcf context create vks-01 --kubeconfig ~/.kube/config --kubecontext vcf-cli-vks-01-prod-t2938@vks-01-prod-t2938
+$vcf context create vks-01 --kubeconfig ~/.kube/config --kubecontext vcf-cli-vks-01-prod-xxxxx@vks-01-prod-xxxxx 
+$vcf context refresh
+$vcf context list
+$vcf context use vks-01
+$kubectl get nodes
+
+—————————————
+リポジトリの登録
+$Vcf package repository add default-addon-repo-install —url depot.kube-system.svc/vcf/vks-standard-packages/ga/3.6.0-20260211/vks-standard-packages:3.6.0-20260211 -n tkg-system
+
+アドオンの確認
+$vcf package available list -n tkg-system
+
+Cert-manager バージョンの確認
+$vcf package available get cert-manager.kubernetes.vmware.com -n tkg-system
+
+Cert-manager のインストール
+$vcf package install cert-manager -p cert-manager.kubernetes.vmware.com —version 1.19.2+vmware.1-vks.1 -n tkg-system
+
+Istio バージョンの確認
+$vcf package available get istio.kubernetes.vmware.com -n tkg-system
+
+Istio のインストール
+$vcf package install istio -p istio.kubernetes.vmware.com —version 1.28.2+vmware.1-vks.1 -n tkg-system
+
+—————————————
+サンプルアプリ
+$cd ~/Desktop/bookstore-app/
+$kubectl create namespace bookstore
+$kubectl label namespace bookstore app.kubernetes.io/managed-by=Helm pod-security.kubernetes.io/enforce=privileged --overwrite
+$kubectl annotate namespace bookstore meta.helm.sh/release-name=demo
+$kubectl annotate namespace bookstore meta.helm.sh/release-namespace=bookstore
+
+$kubectl create secret docker-registry harbor-registry-secret \
+  --docker-server=harbor-01a.vcf.lab \
+  --docker-username=admin \
+  --docker-password=Harbor123! \
+  -n bookstore
+
+$helm install demo ./helm/demo-suite -f ./helm/demo-suite/values-lab.yaml -n bookstore
+
+$kubectl get all -n bookstore
+External IP 10.1.9.3
+
+P181
+DNS設定
+DNS Server にログイン
+Zone を選択
+Input box にvcf.lab を入力し、Edit
+Name: bookstore
+IPv4: 10.1.9.3
+Save をクリック
+
+アプリにアクセス: https://bookstore.vcf.lab
+
+$helm uninstall demo -n bookstore
+
+
+—————
+Updating VKS Service P69
+VKS Service をアップグレード
+
+# 1. Supervisor のコンテキストに切り替え
+vcf context use <supervisor-context>
+
+# 2. 対象クラスタで利用可能なアップグレード先 VKr を確認
+vcf cluster available-upgrades get <cluster-name> -n <namespace>
+
+# 3. ターゲットの VKr を指定してアップグレードを実行
+vcf cluster upgrade <cluster-name> -n <namespace> --kr <target-vkr-name>
+
+Vks-01のYaml編集
+metadata:
+  labels:
+    addons.kubernetes.vmware.com/automated-monitoring: disabled
+
+———————
+kubectl get pkgi -A
+kubectl get pods -A | grep -E "prometheus|monitoring|Pending|Error|Crash"
+kubectl get pvc -A
+
+———————
+先にArgoCD のSupervisor Service を導入しておく
+
+P202
+AutomationでDefault Projectに新規Namespace
+Name: test
+Namespace class: medium
+Region: us-east-a
+Zone: z-wld-a
+Networking: Shared VPC
+VPC: default-us-east-a
+
+$vcf context create supervisor --endpoint 10.1.8.132 --username administrator@wld.sso --insecure-skip-tls-verify --auth-type basic
+VMware123!VMware123!
+
+$vcf context use
+Supervisor:test-xxxxを選択
+
+$kubectl explain argocd.spec.version
+
+$nano ~/Downloads/argocd-instance.yaml
+下記をコピペ
+apiVersion: argocd-service.vsphere.vmware.com/v1alpha1
+kind: ArgoCD
+metadata:
+  name: argocd-instance-01
+  namespace: test-xxxxx
+spec:
+  version: 3.0.19+vmware.1-vks.1
+
+$cat ~/Downloads/argocd-instance.yaml
+
+$kubectl apply -f ~/Downloads/argocd-instance.yaml 
+
+$watch kubectl get pods
+
+パスワード取得
+$kubectl get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d
+
+$kubectl get service
+10.1.9.3
+
+$argocd login 10.1.9.3
+Username: admin
+Password: 上記で取得したもの
+
+$argocd account update-password
+現在のPassword
+新しいPassword: VMware123!VMware123!
+
+$argocd cluster add supervisor --namespace test-xxxxx --kubeconfig ~/.kube/config
+
+$kubectl get service
+External IP 10.1.9.3
+アクセス先: https://10.1.9.3
+
+ArgoCDのUIにログイン
+User: admin
+VMware123!VMware123!
+
+Settings の Clusters を確認
+
+Gitlabへのログイン
+Project の中の Administrator/argocd をクリック
+
+VKS-01のウィザードで作成したyamlファイルの編集
+create-tkg-cluster-yaml-file 解凍
+create-tkg-cluster-yaml-files フォルダ
+Vks-01.yaml をダブルクリック
+Find and Replace で、vks-01 をvis-argo に置換 (2箇所)
+削除行: namespace: prod-t2938
+確認: best-effort-large になっているか
+保存: vks-argo.yaml
+Gitlab の bookstore-infra にvks-argo.yaml をupload
+
+Desktop > bookstore-infra > addoninstall-cert-manager.yaml 編集
+SUPERVISOR_NAMESPCAE をtest-xxxxx に変更
+保存
+
+Desktop > bookstore-infra > addoninstall-istio.yaml 編集
+SUPERVISOR_NAMESPCAE をtest-xxxxx に変更
+保存
+
+Gitlab の bookstore-infra にaddoninstall-cert-manager.yaml と addoninstall-istio.yaml をupload
+
+Gitlab のアクセス先を入手 https://gitlab.vcf.lab/root/argocd.git
+$argocd repo add https://gitlab.vcf.lab/root/argocd.git --name bookstore-infra --project default --upsert --insecure-skip-server-verification
+
+ArgCD のUIから、Settings > Repositories を確認
+ArgCD のUIから、Applications をクリック
+Name: bookstore-infra
+Project Name: default を選択
+SYNC POLICY: Automatic を選択
+Source のRepository は、https://gitlab.vcf.lab/root/argocd.git を選択
+Path: bookstore-infra
+Destination: https://10.1.8.132:443 を選択
+Namespace: test-xxxxx
+上部のCreate をクリック
+
+
+VKS-argoへのコンテキスト作成
+$vcf context create vks-argo --endpoint 10.1.8.132 --username administrator@wld.sso --workload-cluster-namespace test-ly9g6 --workload-cluster-name vks-argo --insecure-skip-tls-verify --auth-type basic
+VMware123!VMware123!
