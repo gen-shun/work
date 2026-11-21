@@ -68,6 +68,8 @@ External IP 10.1.9.3
 P181
 DNS設定
 DNS Server にログイン
+User: admin
+Pass: VMware123!VMware123!
 Zone を選択
 Input box にvcf.lab を入力し、Edit
 Name: bookstore
