@@ -72,6 +72,7 @@ User: admin
 Pass: VMware123!VMware123!
 Zone を選択
 Input box にvcf.lab を入力し、Edit
+Add Record
 Name: bookstore
 IPv4: 10.1.9.3
 Save をクリック
