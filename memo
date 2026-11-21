@@ -29,7 +29,7 @@ $kubectl get nodes
 
 —————————————
 リポジトリの登録
-$Vcf package repository add default-addon-repo-install —url depot.kube-system.svc/vcf/vks-standard-packages/ga/3.6.0-20260211/vks-standard-packages:3.6.0-20260211 -n tkg-system
+$vcf package repository add default-addon-repo-install —url depot.kube-system.svc/vcf/vks-standard-packages/ga/3.6.0-20260211/vks-standard-packages:3.6.0-20260211 -n tkg-system
 
 アドオンの確認
 $vcf package available list -n tkg-system
