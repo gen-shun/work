@@ -1,5 +1,6 @@
 Harbor を削除する
 Harbor namespaceから削除
+Harbor supervisor service を削除
 
 Token確認
 ~/Downloads/my-token.txt に格納されている
