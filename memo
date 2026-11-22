@@ -143,6 +143,9 @@ metadata:
   namespace: test-xxxxx
 spec:
   version: 3.0.19+vmware.1-vks.1
+Ctrl+o
+Enter
+Ctrl+x
 
 $cat ~/Downloads/argocd-instance.yaml
 
