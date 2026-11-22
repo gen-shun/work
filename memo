@@ -186,7 +186,7 @@ VKS-01のウィザードで作成したyamlファイルの編集
 create-tkg-cluster-yaml-file 解凍
 create-tkg-cluster-yaml-files フォルダ
 Vks-01.yaml をダブルクリック
-Find and Replace で、vks-01 をvis-argo に置換 (2箇所)
+Find and Replace で、vks-01 をvks-argo に置換 (2箇所)
 削除行: namespace: prod-t2938
 確認: best-effort-large になっているか
 保存: vks-argo.yaml
