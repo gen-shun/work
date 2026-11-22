@@ -1,6 +1,3 @@
-Harbor を削除する
-Harbor namespaceから削除
-Harbor supervisor service を削除
 
 Token確認
 ~/Downloads/my-token.txt に格納されている
@@ -34,6 +31,7 @@ $kubectl get nodes
 
 Automation の Token を使わない場合
 $vcf context create vks-01 --endpoint 10.1.8.132 --username administrator@wld.sso --workload-cluster-namespace prod-t2938 --workload-cluster-name vks-01 --insecure-skip-tls-verify --auth-type basic
+
 VMware123!VMware123!
 
 この場合、下記のリポジトリ作成はNG
