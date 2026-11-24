@@ -1,6 +1,8 @@
 https://github.com/tmm-demo-apps/bookstore-app
 https://github.com/tmm-demo-apps/bookstore-app/blob/main/docs/architecture/ARCHITECTURE.md
 
+Namespace Prod-xxxx の vks は削除しておく
+
 Token確認
 ~/Downloads/my-token.txt に格納されている
 FrsSYoQxrwQ65VnAheyBgysTbDhwLW8q
