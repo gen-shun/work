@@ -5,10 +5,9 @@ Namespace Prod-xxxx の vks は削除しておく
 
 Token確認
 ~/Downloads/my-token.txt に格納されている
-FrsSYoQxrwQ65VnAheyBgysTbDhwLW8q
 立ち上げたタイミングで異なる
 
-$vcf context create vcfa --endpoint auto-a.site-a.vcf.lab --api-token 1FasL1HLOqRefVuEepZFqEkYrT28ZGus --tenant-name acme-east-a --ca-certificate vcfa-cert-chain.pem
+$vcf context create vcfa --endpoint auto-a.site-a.vcf.lab --api-token XXXXX --tenant-name acme-east-a --ca-certificate vcfa-cert-chain.pem
 
 $vcf context use
 vcfa:prod-t2938:default-projectを選択
@@ -36,7 +35,6 @@ $kubectl get nodes
 Automation の Token を使わない場合
 $vcf context create vks-01 --endpoint 10.1.8.132 --username administrator@wld.sso --workload-cluster-namespace prod-t2938 --workload-cluster-name vks-01 --insecure-skip-tls-verify --auth-type basic
 
-VMware123!VMware123!
 
 この場合、下記のリポジトリ作成はNG
 Automation の画面からaddon を導入する
@@ -76,13 +74,13 @@ $kubectl create secret docker-registry harbor-registry-secret \
 $helm install demo ./helm/demo-suite -f ./helm/demo-suite/values-lab.yaml -n bookstore
 
 $kubectl get all -n bookstore
-External IP 10.1.9.3
+External IP xx.xx.xx.xx
 
 P181
 DNS設定
 DNS Server にログイン
 User: admin
-Pass: VMware123!VMware123!
+Pass: xxxxx
 Zone を選択
 Input box にvcf.lab を入力し、Edit
 Add Record
@@ -131,7 +129,6 @@ Networking: Shared VPC
 VPC: default-us-east-a
 
 $vcf context create supervisor --endpoint 10.1.8.132 --username administrator@wld.sso --insecure-skip-tls-verify --auth-type basic
-VMware123!VMware123!
 
 $vcf context use
 Supervisor:test-xxxxを選択
@@ -161,25 +158,24 @@ $watch kubectl get pods
 $kubectl get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d
 
 $kubectl get service
-10.1.9.3
+xx.xx.xx.xx
 
-$argocd login 10.1.9.3
+$argocd login xx.xx.xx.xx
 Username: admin
 Password: 上記で取得したもの
 
 $argocd account update-password
 現在のPassword
-新しいPassword: VMware123!VMware123!
+新しいPassword: xxxxx
 
 $argocd cluster add supervisor --namespace test-xxxxx --kubeconfig ~/.kube/config
 
 $kubectl get service
-External IP 10.1.9.3
-アクセス先: https://10.1.9.3
+External IP xx.xx.xx.xx
+アクセス先: https://xx.xx.xx.xx
 
 ArgoCDのUIにログイン
 User: admin
-VMware123!VMware123!
 
 Settings の Clusters を確認
 
@@ -216,11 +212,12 @@ Project Name: default を選択
 SYNC POLICY: Automatic を選択
 Source のRepository は、https://gitlab.vcf.lab/root/argocd.git を選択
 Path: bookstore-infra
-Destination: https://10.1.8.132:443 を選択
+Destination: https://xx.xx.xx.xx:443 を選択
 Namespace: test-xxxxx
 上部のCreate をクリック
 
 
 VKS-argoへのコンテキスト作成
 $vcf context create vks-argo --endpoint 10.1.8.132 --username administrator@wld.sso --workload-cluster-namespace test-ly9g6 --workload-cluster-name vks-argo --insecure-skip-tls-verify --auth-type basic
-VMware123!VMware123!
+
+
